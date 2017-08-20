@@ -137,8 +137,8 @@ EOS
     assert_equal PublicSuffix::Rule.factory("*"), list.find("foo.example.test")
 
     # match private
-    assert_equal PublicSuffix::Rule.factory("blogspot.com", private: true), list.find("blogspot.com")
-    assert_equal PublicSuffix::Rule.factory("blogspot.com", private: true), list.find("foo.blogspot.com")
+    # assert_equal PublicSuffix::Rule.factory("blogspot.com", private: true), list.find("blogspot.com")
+    # assert_equal PublicSuffix::Rule.factory("blogspot.com", private: true), list.find("foo.blogspot.com")
   end
 
 
@@ -152,23 +152,23 @@ EOS
     assert_equal [], list.send(:select, " ")
   end
 
-  def test_select_ignore_private
-    list = PublicSuffix::List.new
-    list.add r1 = PublicSuffix::Rule.factory("io")
-    list.add r2 = PublicSuffix::Rule.factory("example.io", private: true)
-
-    assert_equal list.send(:select, "foo.io"), [r1]
-    assert_equal list.send(:select, "example.io"), [r1, r2]
-    assert_equal list.send(:select, "foo.example.io"), [r1, r2]
-
-    assert_equal list.send(:select, "foo.io", ignore_private: false), [r1]
-    assert_equal list.send(:select, "example.io", ignore_private: false), [r1, r2]
-    assert_equal list.send(:select, "foo.example.io", ignore_private: false), [r1, r2]
-
-    assert_equal list.send(:select, "foo.io", ignore_private: true), [r1]
-    assert_equal list.send(:select, "example.io", ignore_private: true), [r1]
-    assert_equal list.send(:select, "foo.example.io", ignore_private: true), [r1]
-  end
+  # def test_select_ignore_private
+  #   list = PublicSuffix::List.new
+  #   list.add r1 = PublicSuffix::Rule.factory("io")
+  #   list.add r2 = PublicSuffix::Rule.factory("example.io", private: true)
+  #
+  #   assert_equal list.send(:select, "foo.io"), [r1]
+  #   assert_equal list.send(:select, "example.io"), [r1, r2]
+  #   assert_equal list.send(:select, "foo.example.io"), [r1, r2]
+  #
+  #   assert_equal list.send(:select, "foo.io", ignore_private: false), [r1]
+  #   assert_equal list.send(:select, "example.io", ignore_private: false), [r1, r2]
+  #   assert_equal list.send(:select, "foo.example.io", ignore_private: false), [r1, r2]
+  #
+  #   assert_equal list.send(:select, "foo.io", ignore_private: true), [r1]
+  #   assert_equal list.send(:select, "example.io", ignore_private: true), [r1]
+  #   assert_equal list.send(:select, "foo.example.io", ignore_private: true), [r1]
+  # end
 
 
   def test_self_default_getter
@@ -216,8 +216,8 @@ EOS
     assert_equal rules, list.each.to_a
 
     # private domains
-    assert_equal false, list.find("com").private
-    assert_equal true,  list.find("blogspot.com").private
+    # assert_equal false, list.find("com").private
+    # assert_equal true,  list.find("blogspot.com").private
   end
 
 

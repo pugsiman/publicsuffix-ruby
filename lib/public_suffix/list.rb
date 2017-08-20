@@ -90,7 +90,7 @@ module PublicSuffix
             next
 
           else
-            list.add(Rule.factory(line, private: section == 2))
+            list.add(Rule.factory(line))
 
           end
         end
@@ -234,7 +234,7 @@ module PublicSuffix
     private
 
     def entry_to_rule(entry, value)
-      entry.type.new(value: value, length: entry.length, private: entry.private)
+      entry.type.new(value: value, length: entry.length)
     end
 
     def rule_to_entry(rule)

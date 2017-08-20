@@ -106,25 +106,24 @@ module PublicSuffix
       attr_reader :length
 
       # @return [Boolean] true if the rule is a private domain
-      attr_reader :private
 
+      def private; end
 
       # Initializes a new rule from the content.
       #
       # @param  content [String] the content of the rule
       # @param  private [Boolean]
-      def self.build(content, private: false)
-        new(value: content, private: private)
+      def self.build(content)
+        new(value: content)
       end
 
       # Initializes a new rule.
       #
       # @param  value [String]
       # @param  private [Boolean]
-      def initialize(value:, length: nil, private: false)
-        @value    = value.to_s
+      def initialize(value:, length: nil)
+        @value    = value.to_s.freeze
         @length   = length || @value.count(DOT) + 1
-        @private  = private
       end
 
       # Checks whether this rule is equal to <tt>other</tt>.
@@ -219,16 +218,16 @@ module PublicSuffix
       #
       # @param  content [String] the content of the rule
       # @param  private [Boolean]
-      def self.build(content, private: false)
-        new(value: content.to_s[2..-1], private: private)
+      def self.build(content)
+        new(value: content.to_s[2..-1])
       end
 
       # Initializes a new rule.
       #
       # @param  value [String]
       # @param  private [Boolean]
-      def initialize(value:, length: nil, private: false)
-        super(value: value, length: length, private: private)
+      def initialize(value:, length: nil)
+        super(value: value, length: length)
         length or @length += 1 # * counts as 1
       end
 
@@ -266,8 +265,8 @@ module PublicSuffix
       #
       # @param  content [String] the content of the rule
       # @param  private [Boolean]
-      def self.build(content, private: false)
-        new(value: content.to_s[1..-1], private: private)
+      def self.build(content)
+        new(value: content.to_s[1..-1])
       end
 
       # Gets the original rule definition.
@@ -321,7 +320,7 @@ module PublicSuffix
     #
     # @param  [String] content The rule content.
     # @return [PublicSuffix::Rule::*] A rule instance.
-    def self.factory(content, private: false)
+    def self.factory(content)
       case content.to_s[0, 1]
       when STAR
         Wildcard
@@ -329,7 +328,7 @@ module PublicSuffix
         Exception
       else
         Normal
-      end.build(content, private: private)
+      end.build(content)
     end
 
     # The default rule to use if no rule match.
